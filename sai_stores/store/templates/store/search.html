@@ -1,0 +1,216 @@
+{% extends 'base1.html' %}
+{% block content %}
+
+<section class="section-b-space shop-section">
+    <div class="container-fluid-lg">
+        <div class="row">
+           
+         
+<div class="col-custom-3 wow fadeInUp">
+    <div class="left-box">
+        <div class="shop-left-sidebar" style="background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);margin-top:30px; width: 100%;">
+            <h5 style="margin-bottom: 20px; font-weight: bold; text-align: center;">Filter Products</h5>
+            <form method="get" action="{% url 'store:search' %}">
+                
+                <!-- Search Bar -->
+                <div style="margin-bottom: 20px;">
+                    <input type="search" name="search" placeholder="Search for products..." 
+                           value="{{ request.GET.search }}" 
+                           style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+                </div>
+
+                <!-- Category Filter -->
+                <div style="margin-bottom: 20px;">
+                    <label for="category-filter" style="font-weight: bold;">Category</label>
+                    <select name="category" id="category-filter" 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Product Type Filter -->
+                <div style="margin-bottom: 20px;">
+                    <label for="type-filter" style="font-weight: bold;">Product Type</label>
+                    <select name="type" id="type-filter" 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+                        <option value="">All Types</option>
+                        {% for type in types %}
+                        <option value="{{ type.id }}" {% if request.GET.type == type.id|stringformat:"s" %}selected{% endif %}>
+                            {{ type.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div style="margin-bottom: 20px;">
+                    <label for="price-filter" style="font-weight: bold;">Price Range</label>
+                    <select name="price" id="price-filter" 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+                        <option value="">All Price Ranges</option>
+                        <option value="0-100" {% if request.GET.price == '0-100' %}selected{% endif %}>₹0 - ₹100</option>
+                        <option value="100-500" {% if request.GET.price == '100-500' %}selected{% endif %}>₹100 - ₹500</option>
+                        <option value="500-1000" {% if request.GET.price == '500-1000' %}selected{% endif %}>₹500 - ₹1000</option>
+                        <option value="1000-10000" {% if request.GET.price == '1000-10000' %}selected{% endif %}>₹1000 - ₹10000</option>
+                        <option value="10000-25000" {% if request.GET.price == '10000-25000' %}selected{% endif %}>₹10000 - ₹25000</option>
+                    </select>
+                </div>
+
+                <!-- Search Button -->
+                <div style="text-align: center; margin-top: 20px;">
+                    <button type="submit" style="background: #ff6f61; color: #fff; padding: 12px 20px; border: none; 
+                            border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%;">
+                        🔍 Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+            <!-- Products Section -->
+            <div class="col-custom- wow fadeInUp">
+                <div class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-3 row-cols-2 product-list-section">
+                    {% if products %}
+                        {% for product in products %}
+                        <div class="col">
+                            <div class="product-box-3 h-100 wow fadeInUp">
+                                <div class="product-header">
+                                    <div class="product-image">
+                                        <a href="{% url 'store:product_detail' product.id %}">
+                                            <img src="{{ product.image.url }}" class="img-fluid blur-up lazyload" alt="{{ product.name }}">
+                                        </a>
+                                        <ul class="product-option">
+                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+                                                <a href="{% url 'store:product_detail' product.id %}">
+                                                    <i data-feather="eye"></i>
+                                                </a>
+                                            </li>
+                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Cart">
+                                                <a href="{% url 'store:add_to_cart' product.id %}">
+                                                    <i data-feather="shopping-cart"></i>
+                                                </a>
+                                            </li>
+                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                                                <a href="{% url 'store:toggle_wishlist' product.id %}" class="notifi-wishlist" data-product-id="{{ product.id }}">
+                                                    <i data-feather="heart"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="product-detail">
+                                        <span class="span-name">{{ product.category.name }} From  {{ product.type.name }} </span>
+                                        <a href="{% url 'store:product_detail' product.id %}">
+                                            <h5 class="name">{{ product.name }}</h5>
+                                        </a>
+                                        <h5 class="price"><span class="theme-color">₹{{ product.discounted_price }}</span></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <p class="text-center">No products found.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+
+<form method="get" action="{% url 'store:search' %}">
+    <input type="search" name="search" placeholder="Search for products" value="{{ request.GET.search }}">
+
+    <!-- Category Filter -->
+    <select name="category" id="category-filter">
+        <option value="">All Categories</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+            {{ category.name }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <!-- Product Type Filter -->
+    <select name="type" id="type-filter">
+        <option value="">All Types</option>
+        {% for type in types %}
+        <option value="{{ type.id }}" {% if request.GET.type == type.id|stringformat:"s" %}selected{% endif %}>
+            {{ type.name }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <!-- Price Range Filter -->
+    <select name="price">
+        <option value="">All Price Ranges</option>
+        <option value="0-100" {% if request.GET.price == '0-100' %}selected{% endif %}>0 - 100</option>
+        <option value="100-500" {% if request.GET.price == '100-500' %}selected{% endif %}>100 - 500</option>
+        <option value="500-1000" {% if request.GET.price == '500-1000' %}selected{% endif %}>500 - 1000</option>
+        <option value="1000-10000" {% if request.GET.price == '1000-10000' %}selected{% endif %}>1000 - 10000</option>
+        <option value="10000-25000" {% if request.GET.price == '10000-25000' %}selected{% endif %}>10000 - 25000</option>
+    </select>
+
+    <button type="submit">Search</button>
+</form>
+
+<!-- Results Section -->
+<div>
+    {% if products %}
+    <div class="container mt-5">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">
+                            <strong>Price:</strong> ₹{{ product.discounted_price }}<br>
+                            <strong>Category:</strong> {{ product.category.name }}<br>
+                            <strong>Type:</strong> {{ product.type.name }}
+                        </p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'store:product_detail' product.id %}" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center">No products found.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+</div>
+{% endblock content %} {% endcomment %}

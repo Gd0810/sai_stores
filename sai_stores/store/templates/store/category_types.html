@@ -1,0 +1,124 @@
+
+{% extends "base1.html" %} 
+
+{% include "header.html" %}
+
+{% block content %}
+{% load static %}
+
+<section>
+    <div class="container-fluid-lg">
+        <div class="row">
+            <div class="col-12">
+                <div class="slider-1 slider-animate product-wrapper no-arrow">
+                    <div>
+                        <div class="banner-contain-2 hover-effect">
+                            <img src="{% static "/assets/images/shop/1.jpg" %}" class="bg-img rounded-3 blur-up lazyload" alt="">
+                            <div
+                                class="banner-detail p-center-right position-relative shop-banner ms-auto banner-small">
+                                <div>
+                                    <h2>Healthy, nutritious & Tasty Fruits & Veggies</h2>
+                                    <h3>Save upto 50%</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="banner-contain-2 hover-effect">
+                            <img src="{% static "assets/images/shop/1.jpg" %}" class="bg-img rounded-3 blur-up lazyload" alt="">
+                            <div
+                                class="banner-detail p-center-right position-relative shop-banner ms-auto banner-small">
+                                <div>
+                                    <h2>Healthy, nutritious & Tasty Fruits & Veggies</h2>
+                                    <h3>Save upto 50%</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="banner-contain-2 hover-effect">
+                            <img src="{% static "assets/images/shop/1.jpg" %}" class="bg-img rounded-3 blur-up lazyload" alt="">
+                            <div
+                                class="banner-detail p-center-right position-relative shop-banner ms-auto banner-small">
+                                <div>
+                                    <h2>Healthy, nutritious & Tasty Fruits & Veggies</h2>
+                                    <h3>Save upto 50%</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-b-space shop-section">
+    <div class="container-fluid-lg">
+        {% comment %} <div class="row">
+            <div class="col-12">
+                <h2>Product Types in {{ category.name }}</h2>
+            </div>
+        </div> {% endcomment %}
+
+
+        <div class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-3 row-cols-2 product-list-section">
+            {% for item in types %}
+            <div class="col">
+                <div class="product-box-3 h-100 wow fadeInUp">
+                    <div class="product-header">
+                        <div class="product-image">
+                            <a href="{% url 'store:type_products' item.id %}">
+                                <img src="{{ item.image.url }}" class="img-fluid blur-up lazyload" alt="{{ item.name }}">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-detail">
+                            <a href="{% url 'store:type_products' item.id %}">
+                                <h5 class="name">{{ item.name }}</h5>
+                            </a>
+                            <a href="{% url 'store:type_products' item.id %}" class="btn btn-primary mt-2">View Products</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% include "fotter.html" %}
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Product Types in  {{ category.name }}</h2>
+    <div class="row">
+        {% for item in types %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <h1>{{ item.name }}</h1>
+                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <a href="{% url 'store:type_products' item.id %}" class="btn btn-primary">View Products</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} {% endcomment %}

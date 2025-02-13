@@ -1,0 +1,296 @@
+{% extends 'base1.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+    .responsive-margin {
+        margin-left: 60px; /* Default margin */
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .p{
+       font-weight: 500;
+    }
+
+
+    /* Media query for screens smaller than 700px */
+    @media (max-width: 700px) {
+        .responsive-margin {
+            margin-left: 0;
+        }
+    }
+</style>
+ <!-- Home Section Start -->
+ <section style="height: 300px; background-image: url({% static "\assets\images\baner.png" %}); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: start; text-align: center; color: #0DA487;">
+    <div class="responsive-margin" >
+        <h1>Welcome to VelloreCart</h1>
+        <h2 class="p">Discover amazing Products</h2>
+    </div>      
+</section>
+<br><br>
+
+<!-- Home Section End -->
+
+
+<!-- Product apple Section Start -->   
+<section class="featured-sec section-b-space" style="background-color: #f8f8f8 !important;">
+    <div class="container-fluid-lg">
+        <div class="row g-3">
+            <div class="col-xxl-3 col-lg-4">
+                <div class="feature-title">
+                    <div>
+                        <h2>Featured Apple Products</h2>
+                        <p>Every week, our staff personally hand-pick some of the best new Apple products from our collection.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-9 col-lg-8">
+                <div class="featured-slider no-arrow">
+                    {% if apple_products %}
+                        {% for product in apple_products %}
+                        <div>
+                            <div class="product-theme-box">
+                                <div class="label-tag">
+                                    <span>Trending</span>
+                                    <i data-feather="zap"></i>
+                                </div>
+                                <div class="img-box ratio_50">
+                                    <a href="{% url 'store:product_detail' product.id %}">
+                                        <img src="{{ product.image.url }}" class="bg-img" alt="{{ product.name }}">
+                                    </a>
+                                    <a href="{% url 'store:toggle_wishlist' product.id %}" class="heart-icon">
+                                        <i data-feather="heart"></i>
+                                    </a>
+                                </div>
+                                <div class="content-box">
+                                    <div class="top-content">
+                                        <a href="{% url 'store:product_detail' product.id %}">
+                                            <h5>{{ product.name }}</h5>
+                                        </a>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <h6>by <a href="#!"> {{ product.type.name }}</a> in <a href="#!">{{ product.category.name }}</a></h6>
+                                        </div>
+                                    </div>
+                                    <div class="bottom-content">
+                                        <div>
+                                            <h5 class="price"> <h5 class="price">₹{{ product.discounted_price }}</h5>
+                                        </div>
+                                        <div class="btn-grp">
+                                            <a class="btn btn-outline" href="{% url 'store:add_to_cart' product.id %}"> <i data-feather="shopping-cart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-xxl-12">
+                            <p>No Apple products found.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+  <!-- Product apple Section end -->  
+
+<!-- Feature category section end -->
+<section class="product-section">
+    <div class="container-fluid-lg">
+        <div class="title">
+            <h2>Top Items</h2>
+        </div>
+        <div class="row g-4">
+            {% for product in top_products %}
+            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                <div class="product-theme-box">
+                    <div class="label-tag">
+                        <span>Trending</span>
+                        <i data-feather="zap"></i>
+                    </div>
+                    <div class="img-box ratio_50">
+                        <a href="{% url 'store:product_detail' product.id %}">
+                            <img src="{{ product.image.url }}" class="bg-img" alt="{{ product.name }}">
+                        </a>
+                        <a href="{% url 'store:toggle_wishlist' product.id %}" class="heart-icon">
+                            <i data-feather="heart"></i>
+                        </a>
+                    </div>
+                    <div class="content-box">
+                        <div class="top-content">
+                            <a href="{% url 'store:product_detail' product.id %}">
+                                <h5>{{ product.name }}</h5>
+                            </a>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h6>by <a href="#!">{{ product.type.name }}</a> in <a href="#!">{{ product.category.name }}</a></h6>
+                            </div>
+                        </div>
+                        <div class="bottom-content">
+                            <div>
+                                <h5 class="price">₹{{ product.actual_price }}</h5>
+                            </div>
+                            <div class="btn-grp">
+                                <a class="btn btn-outline" href="{% url 'store:add_to_cart' product.id %}">
+                                    <i data-feather="shopping-cart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No top items found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Feature category section end -->
+
+  
+
+
+<!-- Product Section Start -->
+<section class="product-section">
+    <div class="container-fluid-lg">
+        <div class="title title-flex-2">
+            <h2>Newest Items</h2>
+        </div>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="all" role="tabpanel">
+                <div class="row g-4">
+                    {% for product in recent_products %}
+                    <div class="col-xxl-3 col-lg-4 col-sm-6">
+                        <div class="product-theme-box">
+                            <div class="img-box ratio_50">
+                                <a href="{% url 'store:product_detail' product.id %}">
+                                    <img src="{{ product.image.url }}" class="bg-img" alt="{{ product.name }}">
+                                </a>
+                                <a href="{% url 'store:toggle_wishlist' product.id %}" class="heart-icon">
+                                    <i data-feather="heart"></i>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <div class="top-content">
+                                    <a href="{% url 'store:product_detail' product.id %}">
+                                        <h5>{{ product.name }}</h5>
+                                    </a>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h6>by <a href="#!">{{ product.type.name }}</a> in <a href="#!">{{ product.category.name }}</a></h6>
+                                    </div>
+                                </div>
+                                <div class="bottom-content">
+                                    <div>
+                                        <h5 class="price">₹{{ product.discounted_price }}</h5>
+                                    </div>
+                                    <div class="btn-grp">
+                                        <a class="btn btn-outline" href="{% url 'store:add_to_cart' product.id %}"> <i data-feather="shopping-cart"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Section End -->
+
+{% comment %} <!-- Blog Section Start -->
+<section class="section-b-space">
+    <div class="container-fluid-lg">
+        <div class="title">
+            <h2>Tips, Tricks, and Trends</h2>
+        </div>
+        <div class="slider-4-blog ratio_50 no-arrow">
+            <div>
+                <div class="blog-box">
+                    <div class="blog-box-image">
+                        <a href="blog-detail.html" class="blog-image">
+                            <img src="../assets/images/digital/blog/1.jpg" class="bg-img blur-up lazyload" alt="">
+                        </a>
+                    </div>
+
+                    <a href="blog-detail.html" class="blog-detail">
+                        <h5>Discover Peach Fuzz, Pantone's Color of the Year for 2024</h5>
+                    </a>
+                    <p>Pantone has unveiled its Color of the Year for 2024: Peach Fuzz, a delightful shade with a
+                        soothing and inviting aura. Peach Fuzz is a test…</p>
+
+                </div>
+            </div>
+
+            <div>
+                <div class="blog-box">
+                    <div class="blog-box-image">
+                        <a href="blog-detail.html" class="blog-image">
+                            <img src="../assets/images/digital/blog/2.jpg" class="bg-img blur-up lazyload" alt="">
+                        </a>
+                    </div>
+
+                    <a href="blog-detail.html" class="blog-detail">
+                        <h5>Discover Peach Fuzz, Pantone's Color of the Year for 2024</h5>
+                    </a>
+                    <p>Pantone has unveiled its Color of the Year for 2024: Peach Fuzz, a delightful shade with a
+                        soothing and inviting aura. Peach Fuzz is a test…</p>
+
+                </div>
+            </div>
+
+            <div>
+                <div class="blog-box">
+                    <div class="blog-box-image">
+                        <a href="blog-detail.html" class="blog-image">
+                            <img src="../assets/images/digital/blog/3.jpg" class="bg-img blur-up lazyload" alt="">
+                        </a>
+                    </div>
+
+                    <a href="blog-detail.html" class="blog-detail">
+                        <h5>Discover Peach Fuzz, Pantone's Color of the Year for 2024</h5>
+                    </a>
+                    <p>Pantone has unveiled its Color of the Year for 2024: Peach Fuzz, a delightful shade with a
+                        soothing and inviting aura. Peach Fuzz is a test…</p>
+
+                </div>
+            </div>
+
+            <div>
+                <div class="blog-box">
+                    <div class="blog-box-image">
+                        <a href="blog-detail.html" class="blog-image">
+                            <img src="../assets/images/digital/blog/4.jpg" class="bg-img blur-up lazyload" alt="">
+                        </a>
+                    </div>
+
+                    <a href="blog-detail.html" class="blog-detail">
+                        <h5>Discover Peach Fuzz, Pantone's Color of the Year for 2024</h5>
+                    </a>
+                    <p>Pantone has unveiled its Color of the Year for 2024: Peach Fuzz, a delightful shade with a
+                        soothing and inviting aura. Peach Fuzz is a test…</p>
+
+                </div>
+            </div>
+
+            <div>
+                <div class="blog-box">
+                    <div class="blog-box-image">
+                        <a href="blog-detail.html" class="blog-image">
+                            <img src="../assets/images/digital/blog/2.jpg" class="bg-img blur-up lazyload" alt="">
+                        </a>
+                    </div>
+
+                    <a href="blog-detail.html" class="blog-detail">
+                        <h5>Discover Peach Fuzz, Pantone's Color of the Year for 2024</h5>
+                    </a>
+                    <p>Pantone has unveiled its Color of the Year for 2024: Peach Fuzz, a delightful shade with a
+                        soothing and inviting aura. Peach Fuzz is a test…</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->  {% endcomment %}
+{% endblock %}

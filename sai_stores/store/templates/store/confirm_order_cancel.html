@@ -1,0 +1,47 @@
+{% extends "base1.html" %}
+
+{% block content %}
+{% load static %}
+<section class="log-in-section background-image-2 section-b-space">
+    <div class="container-fluid-lg w-100">
+        <div class="row">
+            <div class="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
+                <div class="image-contain">
+                    <img src="{% static "/assets/images/inner-page/Cancel-amico.png" %}" class="img-fluid" alt="">
+                </div>
+            </div>
+
+            <div class="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
+                <div class="log-in-box">
+                    <div class="log-in-title">
+                        <h2>Confirm Order Cancellation</h2>
+                        <h3>Are you sure you want to cancel the order for <strong style="color:#0DA487;">{{ order.product.name }}?</strong></h3>
+                    </div>
+
+                    <div class="input-box">   
+                        <form class="row g-4" method="post">
+                            {% csrf_token %}
+            
+                            <div class="col-12">
+                                <div class="form-floating theme-form-floating log-in-form">
+                                    <textarea name="cancel_reason" id="cancel_reason" class="form-control" placeholder="Cancellation Reason" required></textarea>
+                                    <label for="cancel_reason">Cancellation Reason</label>
+                                </div>
+                            </div>
+                        
+                            <br>
+                            <button type="submit" class="btn btn-primary" name="confirm" style="width: 100%; background-color:#0DA487; color:whitesmoke;">Confirm Cancellation</button>
+                            <a href="{% url 'store:order_details' order.id %}"  class="btn btn-secondary" style="width: 100%; background-color:#FF5454; color:whitesmoke;">Cancel</a>
+                           
+                        </form>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+
+

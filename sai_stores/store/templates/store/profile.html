@@ -1,0 +1,517 @@
+{% extends "base1.html" %} 
+
+{% include "header.html" %}
+
+{% block content %}
+{% load static %}
+    <!-- User Dashboard Section Start -->
+    <section class="user-dashboard-section section-b-space">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-xxl-3 col-lg-4">
+                    <div class="dashboard-left-sidebar">
+                        <div class="close-button d-flex d-lg-none">
+                            <button class="close-sidebar">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="profile-box">
+                            <div class="cover-image">
+                                <img src="{% static "/assets/images/inner-page/cover-img.jpg" %}" class="img-fluid blur-up lazyload"
+                                    alt="">
+                            </div>
+
+                            <div class="profile-contain">
+                                <div class="profile-image">
+                                    <div class="position-relative">
+                                        {% if user.photo and user.photo.url %}
+                                        <img src="{{ user.photo.url }}" id="profile-pic" class="blur-up lazyload update_img" alt="Profile Photo">
+                                        {% else %}
+                                        <div class="user-photo-placeholder">
+                                            {{ user.username|slice:":1" }}
+                                        </div>
+                                        {% endif %}
+                                        <div class="cover-icon">
+                                            <i class="fa-solid fa-pen">
+                                                <input type="file" id="photo-upload" accept="image/*">
+                                            </i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="profile-name">
+                                    <h3>{{ user.username }}</h3>
+                                <h6 class="text-content">{{ user.email }}</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="nav nav-pills user-nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-dashboard-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-dashboard" type="button"><i data-feather="home"></i>
+                                    DashBoard</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-order-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-order" type="button"><i
+                                        data-feather="shopping-bag"></i>Order</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-wishlist-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-wishlist" type="button"><i data-feather="heart"></i>
+                                    Wishlist</button>
+                            </li>
+                           
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-address-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-address" type="button" role="tab"><i
+                                        data-feather="map-pin"></i>Address</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xxl-9 col-lg-8">
+                    <button class="btn left-dashboard-show btn-animation btn-md fw-bold d-block mb-4 d-lg-none">Show
+                        Menu</button>
+                    <div class="dashboard-right-sidebar">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-dashboard" role="tabpanel">
+                                <div class="dashboard-home">
+                                    <div class="title">
+                                        <h2>My Dashboard</h2>
+                                        <span class="title-leaf">
+                                            <svg class="icon-width bg-gray">
+                                                <use xlink:href="{% static "/assets/svg/leaf.svg#leaf" %}"></use>
+                                            </svg>
+                                        </span>
+                                    </div>
+
+                                    <div class="dashboard-user-name">
+                                        <h6 class="text-content">Hello, <b class="text-title">{{ user.username }}</b></h6>
+                                        <p class="text-content">From your My Account Dashboard you have the ability to
+                                            view a snapshot of your recent account activity and update your account
+                                            information. Select a link below to view or edit information.</p>
+                                    </div>
+
+                                    <div class="total-box">
+                                        <div class="row g-sm-4 g-3">
+                                            <div class="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
+                                                <div class="total-contain">
+                                                    <img src="{% static "/assets/images/svg/order.svg" %}"
+                                                        class="img-1 blur-up lazyload" alt="">
+                                                    <img src="{% static "/assets/images/svg/order.svg" %}" class="blur-up lazyload"
+                                                        alt="">
+                                                    <div class="total-detail">
+                                                        <h5>Total Order</h5>
+                                                        <h3>{{ total_orders }}</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
+                                                <div class="total-contain">
+                                                    <img src="{% static 'assets/images/svg/pending.svg' %}" class="img-1 blur-up lazyload" alt="">
+                                                    <img src="{% static 'assets/images/svg/pending.svg' %}" class="blur-up lazyload" alt="">
+                                                    <div class="total-detail">
+                                                        <h5>Total Completed Order</h5>
+                                                        <h3>{{ total_complete_orders }}</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
+                                                <div class="total-contain">
+                                                    <img src="{% static 'assets/images/svg/wishlist.svg' %}" class="img-1 blur-up lazyload" alt="">
+                                                <img src="{% static 'assets/images/svg/wishlist.svg' %}" class="blur-up lazyload" alt="">
+                                                <div class="total-detail">
+                                                    <h5>Total Wishlist</h5>
+                                                    <h3> {{ wishlist_count }}</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% comment %} <div class="dashboard-title">
+                                        <h3>Account Information</h3>
+                                    </div>
+
+                                    <div class="row g-4">
+                                        <div class="col-xxl-6">
+                                            <div class="dashboard-content-title">
+                                                <h4>Contact Information 
+                                                </h4>
+                                            </div>
+                                            <div class="dashboard-detail">
+                                                <h6 class="text-content">MARK JECNO</h6>
+                                                <h6 class="text-content">vicki.pope@gmail.com</h6>
+                                                <a href="javascript:void(0)">Change Password</a>
+                                            </div>
+                                        </div>
+                                    </div> {% endcomment %}
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="pills-wishlist" role="tabpanel">
+                                <div class="dashboard-wishlist">
+                                    <div class="title">
+                                        <h2>My Wishlist</h2>
+                                        <span class="title-leaf title-leaf-gray">
+                                            <svg class="icon-width bg-gray">
+                                                <use xlink:href="{% static 'assets/svg/leaf.svg' %}"></use>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    
+                                    {% if wishlist_items %}
+                                    <div class="row g-sm-4 g-3">
+                                        {% for item in wishlist_items %}
+                                        <div class="col-xxl-3 col-lg-6 col-md-4 col-sm-6 product-box-contain">
+                                            <div class="product-box-3 theme-bg-white h-100">
+                                                <div class="product-header">
+                                                    <div class="product-image">
+                                                        <a href="{% url 'store:product_detail' item.product.id %}">
+                                                            <img src="{{ item.product.image.url }}" class="img-fluid blur-up lazyload" alt="{{ item.product.name }}">
+                                                        </a>
+                                                        <div class="product-header-top">
+                                                            <button class="btn wishlist-button close_button" data-product-id="{{ item.product.id }}">
+                                                                <i data-feather="x"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                            
+                                                <div class="product-footer">
+                                                    <div class="product-detail">
+                                                        <span class="span-name">{{ item.product.category.name }}</span>
+                                                        <a href="{% url 'store:product_detail' item.product.id %}">
+                                                            <h5 class="name">{{ item.product.name }}</h5>
+                                                        </a>
+                                                        <h5 class="price">
+                                                            <span class="theme-color">₹{{ item.product.discounted_price }}</span>
+                                                            <del>₹{{ item.product.actual_price }}</del>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <p>Your wishlist is empty.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+
+                            <div class="tab-pane fade" id="pills-order" role="tabpanel">
+                                <div class="dashboard-order">
+                                    <div class="title">
+                                        <h2>My Orders History</h2>
+                                        <span class="title-leaf title-leaf-gray">
+                                            <svg class="icon-width bg-gray">
+                                                <use xlink:href="{% static '/assets/svg/leaf.svg' %}"></use>
+                                            </svg>
+                                        </span>
+                                    </div>
+
+                                    <div class="order-contain">
+                                        {% for order in orders %}
+                                        <div class="order-box dashboard-bg-box">
+                                            <div class="order-container">
+                                                <div class="order-icon">
+                                                    <i data-feather="box"></i>
+                                                </div>
+
+                                                <div class="order-detail">
+                                                    <h4>Order <span>{{ order.status }}</span></h4>
+                                                    <h6 class="text-content">Order Date: {{ order.order_date|date:"F j, Y" }}</h6>
+                                                </div>
+                                            </div>
+
+                                            <div class="product-order-detail">
+                                                <a href="{% url 'store:order_details' order.id %}" class="order-image">
+                                                    <img src="{{ order.product.image.url }}" class="blur-up lazyload" alt="{{ order.product.name }}" 
+                                                    style="width: 250px; height: auto; object-fit: cover; border-radius: 8px;">
+                                                </a>
+
+                                                <div class="order-wrap">
+                                                    <a href="{% url 'store:order_details' order.id %}">
+                                                        <h3>{{ order.product.name | truncatewords:13 }}</h3>
+                                                    </a>
+                                                    <ul class="product-size">
+                                                        <li>
+                                                            <div class="size-box">
+                                                                <h6 class="text-content">Discount Price: </h6>
+                                                                <h5>₹{{ order.product.discounted_price }}</h5>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="size-box">
+                                                                <h6 class="text-content">Original Price: </h6>
+                                                                <del>₹{{ order.product.actual_price }}</del>
+                                                            </div>
+                                                        </li>
+
+                                                       
+
+                                                        <li>
+                                                            <div class="size-box">
+                                                                <h6 class="text-content">Sold By : </h6>
+                                                                <h5>{{ order.product.type.name }}</h5>
+                                                            </div>
+                                                        </li>
+
+                                                        <li>
+                                                            <div class="size-box">
+                                                                <h6 class="text-content">Quantity : </h6>
+                                                                <h5>{{ order.quantity }}</h5>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% empty %}
+                                        <p>No orders found.</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="pills-address" role="tabpanel">
+                                <div class="dashboard-address">
+                                    <div class="title title-flex">
+                                        <div>
+                                            <h2>My Address Book</h2>
+                                            <span class="title-leaf">
+                                                <svg class="icon-width bg-gray">
+                                                    <use xlink:href="../assets/svg/leaf.svg#leaf"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <a href="{% url 'store:add_address' %}" class="btn theme-bg-color text-white btn-sm fw-bold mt-lg-0 mt-3">
+                                        <button class="btn theme-bg-color text-white btn-sm fw-bold mt-lg-0 mt-3"
+                                            data-bs-target="#add-address">
+                                            <i data-feather="plus" class="me-2"></i> Add New Address
+                                        </button>
+                                        </a>
+                                    </div>
+                            
+                                    <div class="row g-sm-4 g-3">
+                                        {% for address in addresses %}
+                                        <div class="col-xxl-4 col-xl-6 col-lg-12 col-md-6">
+                                            <div class="address-box">
+                                                <div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="jack" checked>
+                                                    </div>
+                            
+                                                    <div class="table-responsive address-table">
+                                                        <table class="table">
+                                                            <tbody>
+                                                                <tr><td colspan="2">{{ address.name }}</td></tr>
+                                                                <tr><td>Phone no :</td><td>{{ address.mobile }}</td></tr>
+                                                                <tr><td>Locality :</td><td>{{ address.locality }}</td></tr>
+                                                                <tr><td>City :</td><td>{{ address.city }}</td></tr>
+                                                                <tr><td>State :</td><td>{{ address.state }}</td></tr>
+                                                                <tr><td>Pincode :</td><td>{{ address.zipcode }}</td></tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                            
+                                                <div class="button-group">
+                                                    <a href="{% url 'store:update_address' address.id %}" class="btn btn-sm add-button w-100 edit-address-btn"
+                                                        data-bs-target="#editProfile">
+                                                    <button class="btn btn-sm add-button w-100 edit-address-btn"
+                                                        data-bs-target="#editProfile">
+                                                        <i data-feather="edit"></i> Edit
+                                                    </button>
+                                                    </a>
+                                                    <a href="{% url 'store:delete_address' address.id %}" class="btn btn-sm add-button w-100">
+                                                    <button class="btn btn-sm add-button w-100">
+                                                        <i data-feather="trash-2"></i> Remove
+                                                    </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- User Dashboard Section End -->
+     <!-- Add address modal box start -->
+     <div class="modal fade theme-modal" id="add-address" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add a new address</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <input type="text" class="form-control" id="fname" placeholder="Enter First Name">
+                            <label for="fname">Name</label>
+                        </div>
+                    </form>
+
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <input type="text" class="form-control" id="lname" placeholder="Enter Last Name">
+                            <label for="lname">Phone no</label>
+                        </div>
+                    </form>
+
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <input type="email" class="form-control" id="email" placeholder="Enter Email Address">
+                            <label for="email">Locality</label>
+                        </div>
+                    </form>
+
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="address"
+                                style="height: 100px"></textarea>
+                            <label for="address">City</label>
+                        </div>
+                    </form>
+
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <input type="email" class="form-control" id="pin" placeholder="Enter Pin Code">
+                            <label for="pin">Zip Code</label>
+                        </div>
+                    </form>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-md" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn theme-bg-color btn-md text-white" data-bs-dismiss="modal">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add address modal box end -->
+    <!-- Edit Profile Start -->
+    <div class="modal fade theme-modal" id="editProfile" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <input type="text" class="form-control" id="fname" placeholder="Enter First Name">
+                            <label for="fname">Name</label>
+                        </div>
+                    </form>
+
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <input type="text" class="form-control" id="lname" placeholder="Enter Last Name">
+                            <label for="lname">Phone no</label>
+                        </div>
+                    </form>
+
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <input type="email" class="form-control" id="email" placeholder="Enter Email Address">
+                            <label for="email">Locality</label>
+                        </div>
+                    </form>
+
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="address"
+                                style="height: 100px"></textarea>
+                            <label for="address">City</label>
+                        </div>
+                    </form>
+
+                    <form>
+                        <div class="form-floating mb-4 theme-form-floating">
+                            <input type="email" class="form-control" id="pin" placeholder="Enter Pin Code">
+                            <label for="pin">Zip Code</label>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-animation btn-md fw-bold"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" data-bs-dismiss="modal"
+                        class="btn theme-bg-color btn-md fw-bold text-light">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Profile End -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('.close_button').on('click', function() {
+            var $this = $(this);
+            var productId = $this.data('product-id');
+            
+            $.ajax({
+                url: "{% url 'store:toggle_wishlist' 0 %}".replace('0', productId),
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'removed') {
+                        $this.closest('.product-box-contain').remove();
+                    }
+                }
+            });
+        });
+    });
+
+
+    document.getElementById("photo-upload").addEventListener("change", function(event) {
+        var formData = new FormData();
+        formData.append("photo", event.target.files[0]);
+    
+        fetch("{% url 'store:update_profile_photo' %}", {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById("profile-pic").src = data.photo_url;
+            } else {
+                alert("Error updating profile photo");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+
+    </script>
+{% endblock %}
+
+{% include "fotter.html" %}

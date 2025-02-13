@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Place Order</h2>
+    <form method="post">
+        {% csrf_token %}
+        <!-- Address Selection -->
+        <label for="address">Select Shipping Address:</label>
+        <select name="address" id="address" class="form-select mb-3" required>
+            {% for address in addresses %}
+            <option value="{{ address.id }}">{{ address.locality }}, {{ address.city }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Payment Method -->
+        <label for="payment_method">Select Payment Method:</label>
+        <select name="payment_method" id="payment_method" class="form-select mb-3" required>
+            <option value="COD">Cash on Delivery</option>
+            <option value="Online">Online Payment</option>
+        </select>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success">Place Order</button>
+    </form>
+</div>
+{% endblock %}

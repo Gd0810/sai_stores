@@ -1,0 +1,126 @@
+{% extends "base1.html" %} 
+
+{% include "header.html" %}
+
+{% block content %}
+{% load static %}
+ <!-- Wishlist Section Start -->
+ <section class="wishlist-section section-b-space">
+    <div class="container-fluid-lg">
+        <h2>Your Wishlist</h2>
+        {% if wishlist_items %}
+        <div class="row g-sm-3 g-2">
+            {% for item in wishlist_items %}
+            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 product-box-contain">
+                <div class="product-box-3 h-100">
+                    <div class="product-header">
+                        <div class="product-image">
+                            <a href="{% url 'store:product_detail' item.product.id %}">
+                                <img src="{{ item.product.image.url }}" class="img-fluid blur-up lazyload" alt="{{ item.product.name }}">
+                            </a>
+                            <div class="product-header-top">
+                                <button class="btn wishlist-button close_button" data-product-id="{{ item.product.id }}">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-detail">
+                            <span class="span-name">{{ item.product.category.name }}</span>
+                            <a href="{% url 'store:product_detail' item.product.id %}">
+                                <h5 class="name">{{ item.product.name }}</h5>
+                            </a>
+                            <h5 class="price">
+                                <span class="theme-color">₹{{ item.product.discounted_price }}<del>₹{{ item.product.actual_price }}</del></span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="container mt-5 d-flex flex-column align-items-center justify-content-center" style="height: 60vh; text-align: center;">
+            <img src="{% static "assets\images\inner-page\11269611_4654898.jpg" %}" alt="Empty Cart" style="max-width: 500px; margin-bottom: 20px;">
+            <p style="font-size: 20px; color: #777;">Your Wishlist is empty.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.close_button').on('click', function() {
+        var $this = $(this);
+        var productId = $this.data('product-id');
+        
+        $.ajax({
+            url: "{% url 'store:toggle_wishlist' 0 %}".replace('0', productId),
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.status === 'removed') {
+                    $this.closest('.product-box-contain').remove();
+                }
+            }
+        });
+    });
+});
+</script>
+
+<!-- Wishlist Section End -->
+
+{% endblock %}
+
+{% include "fotter.html" %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Wishlist</h2>
+    {% if wishlist_items %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in wishlist_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>₹{{ item.product.discounted_price }}</td>
+                <td>
+                    <a href="{% url 'store:product_detail' item.product.id %}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{% url 'store:toggle_wishlist' item.product.id %}" class="btn btn-danger btn-sm">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Your wishlist is empty.</p>
+    {% endif %}
+</div>
+{% endblock %} {% endcomment %}

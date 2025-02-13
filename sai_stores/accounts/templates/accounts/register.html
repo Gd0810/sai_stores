@@ -1,0 +1,400 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Vellorecart">
+        <meta name="keywords" content="Vellorecart">
+        <meta name="author" content="Vellorecart">
+        <link rel="icon" href="../assets/images/favicon/7.png" type="image/x-icon">
+        <title>Vellore Cart</title>
+
+        <!-- Google font -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <!-- bootstrap css -->
+        <link id="rtl-link" rel="stylesheet" type="text/css" href="{% static "/assets/css/vendors/bootstrap.css" %}">
+
+        <!-- wow css -->
+        <link rel="stylesheet" href="{% static "/assets/css/animate.min.css" %}">
+
+        <!-- Iconly css -->
+        <link rel="stylesheet" type="text/css" href="{% static "/assets/css/bulk-style.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "/assets/css/vendors/animate.css" %}">
+
+        <!-- Template css -->
+        <link id="color-link" rel="stylesheet" type="text/css" href="{% static "assets/css/style.css" %}">
+    </head>
+
+    <body class="theme-color-7">
+        <!-- Loader Start -->
+        <div class="fullpage-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <!-- Loader End -->
+
+          
+          <!-- mobile fix menu start -->
+    <div class="mobile-menu d-md-none d-block mobile-cart">
+        <ul>
+            <li class="active">
+                <a href="index.html">
+                    <i class="iconly-Home icli"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+
+            <li class="mobile-category">
+                <a href="javascript:void(0)">
+                    <i class="iconly-Category icli js-link"></i>
+                    <span>Category</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="search.html" class="search-box">
+                    <i class="iconly-Search icli"></i>
+                    <span>Search</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="wishlist.html" class="notifi-wishlist">
+                    <i class="iconly-Heart icli"></i>
+                    <span>My Wish</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="cart.html">
+                    <i class="iconly-Bag-2 icli fly-cate"></i>
+                    <span>Cart</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- mobile fix menu end -->
+
+    <!-- Breadcrumb Section Start -->
+    <section class="breadcrumb-section pt-0">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-contain">
+                        <h2>Sign In</h2>
+                        <nav>
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="{% url 'store:index' %}">
+                                        <i class="fa-solid fa-house"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active">Sign In</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- log in section start -->
+    <section class="log-in-section section-b-space">
+        <div class="container-fluid-lg w-100">
+            <div class="row">
+                <div class="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
+                    <div class="image-contain">
+                        <img src="{% static "/assets/images/inner-page/sign-up.png" %}" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
+                    <div class="log-in-box">
+                        <div class="log-in-title">
+                            <h3>Welcome To Fastkart</h3>
+                            <h4>Create New Account</h4>
+                        </div>
+
+                        <div class="input-box">      
+                            <form class="row g-4" method="post" enctype="multipart/form-data" class="register-form">
+                                {% csrf_token %}
+
+                                <div class="col-12">
+                                    <div class="form-floating theme-form-floating">
+                                        <input type="text" class="form-control" name="username" id="id_username" placeholder="Username">
+                                        {% if form.username.errors %}
+                                        <p class="error" style="color:red;">{{ form.username.errors.0 }}</p>
+                                        {% endif %}
+                                        <label for="id_username">Username</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating theme-form-floating">
+                                        <input type="email" class="form-control" name="email" id="id_email" placeholder="Email Address">
+                                        {% if form.email.errors %}
+                                        <p class="error" style="color:red;">{{ form.email.errors.0 }}</p>
+                                        {% endif %}
+                                        <label for="id_email">Email Address</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating theme-form-floating">
+                                        <input type="number" class="form-control" name="phone_number" id="id_phone_number" placeholder="Phone Number">
+                                        {% if form.phone_number.errors %}
+                                        <p class="error" style="color:red;">{{ form.phone_number.errors.0 }}</p>
+                                        {% endif %}
+                                        <label for="id_phone_number">Phone Number</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating theme-form-floating">
+                                        <input  type="file" name="photo" id="id_photo" class="form-control" placeholder="Profile Photo">
+                                        {% if form.photo.errors %}
+                                        <p class="error" style="color:red;">{{ form.photo.errors.0 }}</p>
+                                        {% endif %}
+                                         <label for="id_photo" style="margin-left:65%;">Profile Photo</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating theme-form-floating">
+                                        <input type="password" class="form-control" name="password1" id="id_password1" placeholder="Password">
+                                            {% if form.password1.errors %}
+                                            <p class="error" style="color:red;">{{ form.password1.errors.0 }}</p>
+                                            {% endif %}
+                                        <label for="id_password1">Password</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating theme-form-floating">
+                                        <input type="password" class="form-control" name="password2" id="id_password2"
+                                            placeholder="Password">
+                                            {% if form.password2.errors %}
+                                            <p class="error" style="color:red;">{{ form.password2.errors.0 }}</p>
+                                            {% endif %}
+                                        <label for="id_password2">Confirm Password</label>
+                                    </div>
+                                </div>
+
+                                {% comment %} <div class="col-12">
+                                    <div class="forgot-box">
+                                        <div class="form-check ps-0 m-0 remember-box">
+                                            <input class="checkbox_animated check-box" type="checkbox"
+                                                id="flexCheckDefault">
+                                            <label class="form-check-label" for="flexCheckDefault">I agree with
+                                                <span>Terms</span> and <span>Privacy</span></label>
+                                        </div>
+                                    </div>
+                                </div> {% endcomment %}
+
+                                <div class="col-12">
+                                    {% comment %} <button type="submit" class="btn-submit">Register</button> {% endcomment %}
+                                    <button class="btn btn-animation w-100" type="submit">Sign Up</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        {% comment %} <div class="other-log-in">
+                            <h6>or</h6>
+                        </div>
+
+                        <div class="log-in-button">
+                            <ul>
+                                <li>
+                                    <a href="https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&flowEntry=ServiceLogin"
+                                        class="btn google-button w-100">
+                                        <img src="../assets/images/inner-page/google.png" class="blur-up lazyload"
+                                            alt="">
+                                        Sign up with Google
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/" class="btn google-button w-100">
+                                        <img src="../assets/images/inner-page/facebook.png" class="blur-up lazyload"
+                                            alt=""> Sign up with Facebook
+                                    </a>
+                                </li>
+                            </ul>
+                        </div> {% endcomment %}
+
+                        <div class="other-log-in">
+                            <h6></h6>
+                        </div>
+
+                        <div class="sign-up-box">
+                            <h4>Already have an account?</h4>
+                            <a href="{% url 'accounts:login' %}">Log In</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xxl-7 col-xl-6 col-lg-6"></div>
+            </div>
+        </div>
+    </section>
+    <!-- log in section end -->
+
+    <!-- Tap to top and theme setting button start -->
+    <div class="theme-option">
+        {% comment %} <div class="setting-box">
+            <button class="btn setting-button">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+
+            <div class="theme-setting-2">
+                <div class="theme-box">
+                    <ul>
+                        <li>
+                            <div class="setting-name">
+                                <h4>Color</h4>
+                            </div>
+                            <div class="theme-setting-button color-picker">
+                                <form class="form-control">
+                                    <label for="colorPick" class="form-label mb-0">Theme Color</label>
+                                    <input type="color" class="form-control form-control-color" id="colorPick"
+                                        value="#0da487" title="Choose your color">
+                                </form>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="setting-name">
+                                <h4>Dark</h4>
+                            </div>
+                            <div class="theme-setting-button">
+                                <button class="btn btn-2 outline" id="darkButton">Dark</button>
+                                <button class="btn btn-2 unline" id="lightButton">Light</button>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="setting-name">
+                                <h4>RTL</h4>
+                            </div>
+                            <div class="theme-setting-button rtl">
+                                <button class="btn btn-2 rtl-unline">LTR</button>
+                                <button class="btn btn-2 rtl-outline">RTL</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+        <div class="back-to-top">
+            <a id="back-to-top" href="#">
+                <i class="fas fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <!-- Tap to top and theme setting button end -->
+
+
+
+
+
+
+
+         <!-- Latest jQuery -->
+         <script src="{% static "/assets/js/jquery-3.6.0.min.js" %}"></script>
+
+         <!-- Bootstrap JS -->
+         <script src="{% static "/assets/js/bootstrap/bootstrap.bundle.min.js" %}"></script>
+         <script src="{% static "/assets/js/bootstrap/popper.min.js" %}"></script>
+ 
+         <!-- Feather Icon JS -->
+         <script src="{% static "/assets/js/feather/feather.min.js" %}"></script>
+         <script src="{% static "/assets/js/feather/feather-icon.js" %}"></script>
+ 
+         <!-- Slick JS -->
+         <script src="{% static "/assets/js/slick/slick.js" %}"></script>
+         <script src="{% static "/assets/js/slick/slick-animation.min.js" %}"></script>
+         <script src="{% static "/assets/js/slick/custom_slick.js" %}"></script>
+ 
+         <!-- Lazyload JS -->
+         <script src="{% static "/assets/js/lazysizes.min.js" %}"></script>
+ 
+         <!-- Script JS -->
+         <script src="{% static "/assets/js/script.js" %}"></script>
+ 
+         <!-- Theme Setting JS -->
+         <script src="{% static "/assets/js/theme-setting.js" %}"></script>
+ 
+     </body>
+   
+ </html>
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<div class="register-container">
+    <h2>Register</h2>
+    <form method="post" enctype="multipart/form-data" class="register-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Username</label>
+            <input type="text" name="username" id="id_username"  required>
+            {% if form.username.errors %}
+                <p class="error">{{ form.username.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            <input type="email" name="email" id="id_email"  required>
+            {% if form.email.errors %}
+                <p class="error">{{ form.email.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_phone_number">Phone Number</label>
+            <input type="tel" name="phone_number" id="id_phone_number"  required>
+            {% if form.phone_number.errors %}
+                <p class="error">{{ form.phone_number.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_photo">Profile Photo</label>
+            <input type="file" name="photo" id="id_photo">
+            {% if form.photo.errors %}
+                <p class="error">{{ form.photo.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_password1">Password</label>
+            <input type="password" name="password1" id="id_password1" required>
+            {% if form.password1.errors %}
+                <p class="error">{{ form.password1.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_password2">Confirm Password</label>
+            <input type="password" name="password2" id="id_password2" required>
+            {% if form.password2.errors %}
+                <p class="error">{{ form.password2.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn-submit">Register</button>
+    </form>
+</div>
+{% endblock %} {% endcomment %}

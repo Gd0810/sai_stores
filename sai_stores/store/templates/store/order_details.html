@@ -1,0 +1,245 @@
+{% extends "base1.html" %}
+{% include "header.html" %}
+{% load static %}
+
+{% block content %}
+<section class="user-dashboard-section section-b-space">
+    <div class="container-fluid-lg">
+        <div class="row">
+            <div class="col-xxl-9 col-lg-8">
+                <div class="dashboard-right-sidebar">
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-order-details" role="tabpanel">
+                            <div class="dashboard-order-details">
+                                <div class="title">
+                                    <h2>Order Details</h2>
+                                </div>
+
+                                <div class="order-contain">
+                                    <div class="order-box dashboard-bg-box">
+                                        <div class="order-container">
+                                            <div class="order-detail">
+                                                <h4>
+                                                    <span style="margin-right: 10px;"><i data-feather="box"></i></span>
+                                                    Order Status - <span>{{ order.status }}</span>
+                                                </h4>
+                                                <br>
+                                                <h6 class="text-content">Order Date: {{ order.order_date|date:"F j, Y" }}</h6>
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                        <div class="product-order-detail">
+                                            <a href="{% url 'store:product_detail' order.product.id %}" class="order-image">
+                                                <img src="{{ order.product.image.url }}" class="blur-up lazyload" alt="{{ order.product.name }}" style="width: auto; height:300px; object-fit: cover; border-radius: 8px;">
+                                            </a>
+                                            <div class="order-wrap">
+                                                <a href="{% url 'store:product_detail' order.product.id %}">
+                                                    <br>
+                                                    <h3>{{ order.product.name }}</h3>
+                                                </a>
+                                                <br>
+                                                <ul class="product-size">
+                                                    <li>
+                                                        <div class="size-box">
+                                                            <h6 class="text-content">Discount Price:</h6>
+                                                            <h5>₹{{ order.product.discounted_price }}</h5>
+                                                            <del>₹{{ order.product.actual_price }}</del>
+                                                        </div>
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <div class="size-box" style="margin-left: 100px;">
+                                                            <h6 class="text-content">Quantity:</h6>
+                                                            <h5>{{ order.quantity }}</h5>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% if order.status in "Ordered,Shipped,Packed" %}
+                                    <hr>
+                                    <!-- <div class="order-cancel-section">
+                                        <h4>Cancel Order</h4>
+                                        <form action="{% url 'store:confirm_order_cancel' order.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <label for="cancel_reason">Reason for Cancellation:</label>
+                                            <textarea name="cancel_reason" class="form-control" required></textarea>
+                                            <br>
+                                            <button type="submit" class="btn btn-danger">Cancel Order</button>
+                                        </form>
+                                    </div> -->
+
+                                    <a href="{% url 'store:confirm_order_cancel' order.id %}" class="btn btn-danger">Cancel Order</a>
+                                    {% endif %}
+
+                                    {% if order.status == "Delivered" %}
+                                    <hr>
+                                    <div class="dashboard-feedback">
+                                        <h4>Leave a Feedback</h4>
+                                        <form method="POST" action="{% url 'store:submit_feedback' order.product.id %}">
+                                            {% csrf_token %}
+                                            <label>Rate the product:</label>
+                                            <select name="rating" class="form-control">
+                                                <option value="1">⭐</option>
+                                                <option value="2">⭐⭐</option>
+                                                <option value="3">⭐⭐⭐</option>
+                                                <option value="4">⭐⭐⭐⭐</option>
+                                                <option value="5">⭐⭐⭐⭐⭐</option>
+                                            </select>
+                                            <br>
+                                            <textarea name="comment" placeholder="Write your review" class="form-control"></textarea>
+                                            <br>
+                                            <button type="submit" class="btn btn-success">Submit Feedback</button>
+                                        </form>
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="order-detail">
+    <div class="container-fluid-lg">
+        <div class="row g-sm-4 g-3">
+            <div class="col-xxl-3 col-xl-4 col-lg-6">
+                <div class="order-image">
+                    <img src="{{ order.product.image.url }}" class="img-fluid blur-up lazyload" alt="">
+                </div>
+            </div>
+
+            <div class="col-xxl-9 col-xl-8 col-lg-6">
+                <div class="row g-sm-4 g-3">
+                    
+                    <!-- Ordered -->
+                    <div class="col-xl-4 col-sm-6">
+                        <div class="order-details-contain" 
+                            style="{% if order.status == 'Ordered' %}background-color: #e0ffe0;{% endif %}">
+                            <div class="order-tracking-icon">
+                                <i data-feather="package" class="text-content"></i>
+                            </div>
+                            <div class="order-details-name">
+                                <h2 class="theme-colo">Ordered</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipped -->
+                    <div class="col-xl-4 col-sm-6">
+                        <div class="order-details-contain" 
+                            style="{% if order.status == 'Shipped' %}background-color: #fffbcc;{% endif %}">
+                            <div class="order-tracking-icon">
+                                <i data-feather="truck" class="text-content"></i>
+                            </div>
+                            <div class="order-details-name">
+                                <h2 class="theme-colo">Shipped</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Packed -->
+                    <div class="col-xl-4 col-sm-6">
+                        <div class="order-details-contain" 
+                            style="{% if order.status == 'Packed' %}background-color: #ffebcc;{% endif %}">
+                            <div class="order-tracking-icon">
+                                <i data-feather="box" class="text-content"></i>
+                            </div>
+                            <div class="order-details-name">
+                                <h2 class="theme-colo">Packed</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- On the Way -->
+                    <div class="col-xl-4 col-sm-6">
+                        <div class="order-details-contain" 
+                            style="{% if order.status == 'On the Way' %}background-color: #cce5ff;{% endif %}">
+                            <div class="order-tracking-icon">
+                                <i data-feather="send" class="text-content"></i>
+                            </div>
+                            <div class="order-details-name">
+                                <h2 class="theme-colo">On the Way</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivered -->
+                    <div class="col-xl-4 col-sm-6">
+                        <div class="order-details-contain" 
+                            style="{% if order.status == 'Delivered' %}background-color: #d4edda;{% endif %}">
+                            <div class="order-tracking-icon">
+                                <i data-feather="check-circle" class="text-content"></i>
+                            </div>
+                            <div class="order-details-name">
+                                <h2 class="theme-colo">Delivered</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Canceled -->
+                    <div class="col-xl-4 col-sm-6">
+                        <div class="order-details-contain" 
+                            style="{% if order.status == 'Canceled' %}background-color: #f8d7da;{% endif %}">
+                            <div class="order-tracking-icon">
+                                <i data-feather="x-circle" class="text-content"></i>
+                            </div>
+                            <div class="order-details-name">
+                                <h2 class="theme-colo">Canceled</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Tracker -->
+                    <div class="col-12 overflow-hidden">
+                        <ol class="progtrckr">
+                            <li class="{% if order.status in 'Ordered,Shipped,Packed,On the Way,Delivered' %}progtrckr-done{% else %}progtrckr-todo{% endif %}">
+                                <h5>Ordered</h5>
+                                <h6> {{ order.order_date|date:"F j, Y" }}</h6>
+                            </li>
+
+                            <li class="{% if order.status in 'Shipped,Packed,On the Way,Delivered' %}progtrckr-done{% else %}progtrckr-todo{% endif %}">
+                                <h5>Shipped</h5>
+                               
+                            </li>
+
+                            <li class="{% if order.status in 'Packed,On the Way,Delivered' %}progtrckr-done{% else %}progtrckr-todo{% endif %}">
+                                <h5>Packed</h5>
+                               
+                            </li>
+
+                            <li class="{% if order.status in 'On the Way,Delivered' %}progtrckr-done{% else %}progtrckr-todo{% endif %}">
+                                <h5>On the Way</h5>
+                               
+                            </li>
+
+                            <li class="{% if order.status == 'Delivered' %}progtrckr-done{% else %}progtrckr-todo{% endif %}">
+                                <h5>Delivered</h5>
+                               
+                            </li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+    feather.replace();
+</script>
+
+
+
+
+{% endblock %}

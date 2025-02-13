@@ -1,0 +1,303 @@
+{% extends 'base1.html' %}
+{% include "header.html" %}
+{% include 'store/related_products.html' with product=product %}
+{% block content %}
+{% load static %}
+<section class="product-section">
+    <div class="container-fluid-lg">
+        <div class="row">
+            <div class="col-12">
+                <div class="row g-4">
+                    <div class="col-xl-6">
+                        <div class="product-left-box">
+                            <div class="row g-2">
+                                <div class="col-xxl-10 col-lg-12 col-md-10 order-xxl-2 order-lg-1 order-md-2">
+                                    <div class="product-main-2 no-arrow">
+                                        <div>
+                                            <div class="slider-image">
+                                                <img src="{{ product.image.url }}" id="img-1"
+                                                    data-zoom-image="{{ product.image.url }}"
+                                                    class="img-fluid image_zoom_cls-0 blur-up lazyload" alt="{{ product.name }}">
+                                            </div>
+                                        </div>
+                                        {% for media in media_files %}
+                                            <div>
+                                                <div class="slider-image">
+                                                    <img src="{{ media.file.url }}"
+                                                        data-zoom-image="{{ media.file.url }}"
+                                                        class="img-fluid image_zoom_cls-{{ forloop.counter0 }} blur-up lazyload" alt="">
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
+                                    <div class="left-slider-image-2 left-slider no-arrow slick-top">
+                                        <div>
+                                            <div class="sidebar-image">
+                                                <img src="{{ product.image.url }}"
+                                                    class="img-fluid blur-up lazyload" alt="{{ product.name }}">
+                                            </div>
+                                        </div>
+                                        {% for media in media_files %}
+                                            <div>
+                                                <div class="sidebar-image">
+                                                    <img src="{{ media.file.url }}"
+                                                        class="img-fluid blur-up lazyload" alt="">
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <div class="right-box-contain">
+                            <h2 class="name">{{ product.name }}</h2>
+                            <div class="price-rating">
+                                <h3 class="theme-color price">₹{{ product.discounted_price }} <del class="text-content">₹{{ product.actual_price }}</del></h3>
+                            </div>
+                            <h6>
+                                {{ product.basic_description | safe }}
+                            </h6>
+                            <div class="note-box product-package">
+                                <a class="btn theme-bg-color text-white" href="{% url 'store:add_to_cart' product.id %}"><i
+                                    class="fas fa-shopping-cart"></i> Add To Cart</a>
+                                <a class="btn theme-bg-color text-white" href="{% url 'store:toggle_wishlist' product.id %}"><i
+                                    class="fas fa-heart"></i> Add To Wishlist</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="product-section-box">
+                            <ul class="nav nav-tabs custom-nav" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
+                                        data-bs-target="#description" type="button" role="tab">Description</button>
+                                </li>
+
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="review-tab" data-bs-toggle="tab"
+                                        data-bs-target="#review" type="button" role="tab">Review</button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content custom-tab" id="myTabContent">
+                                <div class="tab-pane fade show active" id="description" role="tabpanel">
+                                    <div class="product-description">
+                                        <div class="nav-desh">
+                                            <p>{{ product.description | safe }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="tab-pane fade show active" id="review" role="tabpanel">
+                                    <div class="review-box">
+                                        <div class="row">
+                                            <div class="col-xl-5">
+                                                <div class="product-rating-box">
+                                                    <div class="row">
+                                                        <div class="col-xl-12">
+                                                            <div class="product-main-rating">
+                                                                <h2>{{ product.average_rating }}
+                                                                    <i data-feather="star"></i>
+                                                                </h2>
+                                                                <h5>{{ total_ratings }} Overall Rating</h5>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-12">
+                                                            <ul class="product-rating-list">
+                                                                {% for rating in product.rating_distribution %}
+                                                                <li>
+                                                                    <div class="rating-product">
+                                                                        <h5>{{ rating.stars }}<i data-feather="star"></i></h5>
+                                                                        <div class="progress">
+                                                                            <div class="progress-bar" style="width: {{ rating.percentage }}%;"></div>
+                                                                        </div>
+                                                                        <h5 class="total">{{ rating.count }}</h5>
+                                                                    </div>
+                                                                </li>
+                                                                {% endfor %}
+                                                            </ul>
+
+                                                            <div class="review-title-2">
+                                                                <h4 class="fw-bold">Review this product</h4>
+                                                                <p>Let other customers know what you think</p>
+                                                                {% if user.is_authenticated %}
+                                                                    {% if can_review %}
+                                                                        <form method="POST" action="{% url 'store:submit_feedback' product.id %}">
+                                                                            {% csrf_token %}
+                                                                            <label>Rate the product:</label>
+                                                                            <select name="rating" class="form-control w-25">
+                                                                                <option value="1">⭐</option>
+                                                                                <option value="2">⭐⭐</option>
+                                                                                <option value="3">⭐⭐⭐</option>
+                                                                                <option value="4">⭐⭐⭐⭐</option>
+                                                                                <option value="5">⭐⭐⭐⭐⭐</option>
+                                                                            </select>
+                                                                            <br>
+                                                                            <textarea name="comment" placeholder="Write your review" class="form-control"></textarea>
+                                                                            <br>
+                                                                            <button type="submit" class="btn btn-success">Submit Review</button>
+                                                                        </form>
+                                                                    {% else %}
+                                                                        <p class="text-muted">"First, you need to place an order for the product. Once the product is delivered to you, you can then leave a review."</p>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    <p><a href="{% url 'accounts:login' %}">Login</a> to leave a review.</p>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-7">
+                                                <div class="review-people">
+                                                    <ul class="review-list">
+                                                        {% if product.reviews.all %}
+                                                            {% for review in product.reviews.all %}
+                                                                <li>
+                                                                    <div class="people-box">
+                                                                        <div>
+                                                                            <div class="people-image people-text">
+                                                                                <img alt="user" class="img-fluid" src="{{ review.user.photo.url }}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="people-comment">
+                                                                            <div class="people-name">
+                                                                                <a href="javascript:void(0)" class="name">{{ review.user.username }}</a>
+                                                                                <div class="date-time">
+                                                                                    <h6 class="text-content">{{ review.created_at|date:"F j, Y" }}</h6>
+                                                                                    <div class="product-rating">
+                                                                                        <ul class="rating" data-rating="{{ review.rating }}">
+                                                                                            <!-- Stars will be generated by JavaScript -->
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="reply">
+                                                                                <p>{{ review.comment }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            <p>No reviews yet. Be the first to review this product!</p>
+                                                        {% endif %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+    </div>
+
+</section>
+
+
+
+<section class="product-list-section section-b-space">
+    <div class="container-fluid-lg">
+        <div class="title">
+            <h2>Related Products</h2>
+            <span class="title-leaf">
+                <svg class="icon-width">
+                    <use xlink:href="../assets/svg/leaf.svg#leaf"></use>
+                </svg>
+            </span>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="slider-6_1 product-wrapper">
+                    {% if related_products %}
+                        {% for related_product in related_products %}
+                            <div>
+                                <div class="product-box-3 wow fadeInUp">
+                                    <div class="product-header">
+                                        <div class="product-image">
+                                            <a href="{% url 'store:product_detail' related_product.id %}">
+                                                <img src="{{ related_product.image.url }}" class="img-fluid blur-up lazyload" alt="{{ related_product.name }}">
+                                            </a>
+
+                                            <ul class="product-option">
+                                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+                                                    <a href="{% url 'store:product_detail' related_product.id %}">
+                                                        <i data-feather="eye"></i>
+                                                    </a>
+                                                </li>
+                                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Cart">
+                                                    <a href="{% url 'store:add_to_cart' related_product.id %}">
+                                                        <i data-feather="shopping-cart"></i>
+                                                    </a>
+                                                </li>
+                                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                                                    <a href="{% url 'store:toggle_wishlist' related_product.id %}" class="notifi-wishlist">
+                                                        <i data-feather="heart"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="product-footer">
+                                        <div class="product-detail">
+                                            <span class="span-name">{{ related_product.type.name }}</span>
+                                            <a href="{% url 'store:product_detail' related_product.id %}">
+                                                <h5 class="name">{{ related_product.name }}</h5>
+                                            </a>
+                                            <h5 class="price">
+                                                <span class="theme-color">${{ related_product.discounted_price }}</span>
+                                                <del>${{ related_product.actual_price }}</del>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No related products found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ratingElements = document.querySelectorAll('.rating[data-rating]');
+    
+        ratingElements.forEach(function(ratingElement) {
+            const rating = parseInt(ratingElement.getAttribute('data-rating'));
+            ratingElement.innerHTML = '';
+    
+            for (let i = 0; i < rating; i++) {
+                ratingElement.innerHTML += '⭐';
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% include "fotter.html" %}

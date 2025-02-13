@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3>Your Addresses</h3>
+    <a href="{% url 'store:add_address' %}" class="btn btn-success">Add Address</a>
+    <ul class="list-group">
+        {% for address in addresses %}
+            <li class="list-group-item">
+                {{ address.name }}, {{ address.locality }}, {{ address.city }}
+                <a href="{% url 'store:update_address' address.id %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'store:delete_address' address.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

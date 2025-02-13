@@ -1,0 +1,41 @@
+{% extends "base1.html" %}
+{% load static %}
+
+{% block content %}
+<section class="log-in-section background-image-2 section-b-space">
+    <div class="container-fluid-lg w-100">
+        <div class="row">
+            <div class="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
+                <div class="image-contain">
+                    <img src="{% static "/assets/images/inner-page/Address-rafiki.png" %}" class="img-fluid" alt="">
+                </div>
+            </div>
+
+            <div class="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
+                <div class="log-in-box">
+                    <div class="log-in-title">
+                        <h3>Welcome To Fastkart</h3>
+                        <h4>Add New Address</h4>
+                    </div><br>
+
+                    <div class="input-box">   
+                        <form class="row g-4" method="post">
+                            <div class="form-floating theme-form-floating log-in-form">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary" style="width: 100%; background-color:#0DA487; color:whitesmoke;">Save Address</button><br>
+                            <a href="{% url 'store:profile' %}" class="btn btn-secondary"  style="width: 100%; background-color:#FF5454; color:whitesmoke;">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+
+
+

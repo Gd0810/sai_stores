@@ -488,6 +488,7 @@ def submit_feedback(request, product_id):
     return redirect('store:profile')
 
 
+@login_required
 def profile(request):
     orders = Order.objects.filter(user=request.user).select_related('product__type', 'product__category').order_by('-order_date')
 

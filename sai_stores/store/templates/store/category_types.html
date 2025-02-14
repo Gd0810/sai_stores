@@ -6,14 +6,14 @@
 {% block content %}
 {% load static %}
 
-<section>
+{% comment %} <section>
     <div class="container-fluid-lg">
         <div class="row">
             <div class="col-12">
                 <div class="slider-1 slider-animate product-wrapper no-arrow">
                     <div>
                         <div class="banner-contain-2 hover-effect">
-                            <img src="{% static "/assets/images/shop/1.jpg" %}" class="bg-img rounded-3 blur-up lazyload" alt="">
+                            <img src="{% static "/assets/images/toon1.svg" %}" class="bg-img rounded-3 blur-up lazyload" alt="">
                             <div
                                 class="banner-detail p-center-right position-relative shop-banner ms-auto banner-small">
                                 <div>
@@ -53,17 +53,10 @@
             </div>
         </div>
     </div>
-</section>
+</section> {% endcomment %}
 
 <section class="section-b-space shop-section">
     <div class="container-fluid-lg">
-        {% comment %} <div class="row">
-            <div class="col-12">
-                <h2>Product Types in {{ category.name }}</h2>
-            </div>
-        </div> {% endcomment %}
-
-
         <div class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-3 row-cols-2 product-list-section">
             {% for item in types %}
             <div class="col">

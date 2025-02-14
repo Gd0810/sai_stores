@@ -63,24 +63,23 @@
                         </div>
 
                         <div class="footer-logo-contain">
-                            <p>We are a friendly bar serving a variety of cocktails, wines and beers. Our bar is a
-                                perfect place for a couple.</p>
+                            <p>Welcome to our vibrant tech lounge, your go-to spot for all things electronic. Whether you're a smartphone aficionado, laptop lover, or just someone who enjoys the digital world, we have something special for you.</p>
 
                             <ul class="address">
                                 <li>
-                                    <i data-feather="home"></i>
-                                    <a href="javascript:void(0)">1418 Riverwood Drive, CA 96052, US</a>
+                                    <i class="fa-solid fa-house fa-bounce"></i>
+                                    <a href="https://maps.app.goo.gl/s2D6nQsBk3qmg76n8">Co-operative Campus, Anna Salai, Kosapet, Vellore, Tamil Nadu 632001</a>
                                 </li>
                                 <li>
-                                    <i data-feather="mail"></i>
-                                    <a href="javascript:void(0)">support@fastkart.com</a>
+                                    <i class="fa-solid fa-envelope fa-beat"></i>
+                                    <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=saikrishna6385886810@gmail.com">saikrishna6385886810@gmail.com</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                {% comment %} <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                     <div class="footer-title">
                         <h4>Categories</h4>
                     </div>
@@ -88,22 +87,19 @@
                     <div class="footer-contain">
                         <ul>
                             <li>
-                                <a href="shop-left-sidebar.html" class="text-content">Vegetables & Fruit</a>
+                                <a href="{ {% url "http://127.0.0.1:8000/category/3/" %}" class="text-content">Mobile</a>
                             </li>
                             <li>
-                                <a href="shop-left-sidebar.html" class="text-content">Beverages</a>
+                                <a href="shop-left-sidebar.html" class="text-content">Laptops</a>
                             </li>
                             <li>
-                                <a href="shop-left-sidebar.html" class="text-content">Meats & Seafood</a>
+                                <a href="shop-left-sidebar.html" class="text-content">Tablet</a>
                             </li>
                             <li>
-                                <a href="shop-left-sidebar.html" class="text-content">Frozen Foods</a>
+                                <a href="shop-left-sidebar.html" class="text-content">Television</a>
                             </li>
                             <li>
-                                <a href="shop-left-sidebar.html" class="text-content">Biscuits & Snacks</a>
-                            </li>
-                            <li>
-                                <a href="shop-left-sidebar.html" class="text-content">Grocery & Staples</a>
+                                <a href="shop-left-sidebar.html" class="text-content">Camera</a>
                             </li>
                         </ul>
                     </div>
@@ -111,119 +107,82 @@
 
                 <div class="col-xl col-lg-2 col-sm-3">
                     <div class="footer-title">
+                        <h4>Categories</h4>
+                    </div>
+
+                    <div class="footer-contain">
+                        <ul>
+                            <li>
+                                <a href="index.html" class="text-content">Smart Watch</a>
+                            </li>
+                            <li>
+                                <a href="shop-left-sidebar.html" class="text-content">Headphone</a>
+                            </li>
+                            <li>
+                                <a href="about-us.html" class="text-content">Spkers</a>
+                            </li>
+                            <li>
+                                <a href="blog-list.html" class="text-content">Storage</a>
+                            </li>
+                            <li>
+                                <a href="contact-us.html" class="text-content">Accessories</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div> {% endcomment %}
+
+                <div class="col-xl-2 col-sm-3">
+                    <div class="footer-title">
                         <h4>Useful Links</h4>
                     </div>
 
                     <div class="footer-contain">
                         <ul>
                             <li>
-                                <a href="index.html" class="text-content">Home</a>
+                                <a href="{% url "store:index" %}" class="text-content">Home</a>
                             </li>
                             <li>
-                                <a href="shop-left-sidebar.html" class="text-content">Shop</a>
+                                <a href="{% url "store:cart" %}" class="text-content">Cart</a>
                             </li>
                             <li>
-                                <a href="about-us.html" class="text-content">About Us</a>
+                                <a href="{% url "store:wishlist" %}" class="text-content">Your Wishlist</a>
                             </li>
                             <li>
-                                <a href="blog-list.html" class="text-content">Blog</a>
+                                <a href="{% url 'store:profile' %}" class="text-content">Profile</a>
                             </li>
                             <li>
-                                <a href="contact-us.html" class="text-content">Contact Us</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-xl-2 col-sm-3">
-                    <div class="footer-title">
-                        <h4>Help Center</h4>
-                    </div>
-
-                    <div class="footer-contain">
-                        <ul>
-                            <li>
-                                <a href="order-success.html" class="text-content">Your Order</a>
-                            </li>
-                            <li>
-                                <a href="user-dashboard.html" class="text-content">Your Account</a>
-                            </li>
-                            <li>
-                                <a href="order-tracking.html" class="text-content">Track Order</a>
-                            </li>
-                            <li>
-                                <a href="wishlist.html" class="text-content">Your Wishlist</a>
-                            </li>
-                            <li>
-                                <a href="search.html" class="text-content">Search</a>
-                            </li>
-                            <li>
-                                <a href="faq.html" class="text-content">FAQ</a>
+                                <a href="{% url 'accounts:register' %}" class="text-content">Register</a>
                             </li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="col-xl-3 col-lg-4 col-sm-6">
-                    <div class="footer-title">
-                        <h4>Contact Us</h4>
-                    </div>
-
+                   
                     <div class="footer-contact">
                         <ul>
-                            <li>
-                                <div class="footer-number">
-                                    <i data-feather="phone"></i>
-                                    <div class="contact-number">
-                                        <h6 class="text-content">Hotline 24/7 :</h6>
-                                        <h5>+91 888 104 2340</h5>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="footer-number">
-                                    <i data-feather="mail"></i>
-                                    <div class="contact-number">
-                                        <h6 class="text-content">Email Address :</h6>
-                                        <h5>fastkart@hotmail.com</h5>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="social-app">
-                                <h5 class="mb-2 text-content">Download App :</h5>
-                                <ul>
-                                    <li class="mb-0">
-                                        <a href="https://play.google.com/store/apps" target="_blank">
-                                            <img src="../assets/images/playstore.svg" class="blur-up lazyload"
-                                                alt="">
-                                        </a>
-                                    </li>
-                                    <li class="mb-0">
-                                        <a href="https://www.apple.com/in/app-store/" target="_blank">
-                                            <img src="../assets/images/appstore.svg" class="blur-up lazyload"
-                                                alt="">
-                                        </a>
-                                    </li>
-                                </ul>
+                            <li class="single-image">
+                                <a href="{% url "store:index" %}">
+                                    <img src="{% static "/assets/images/fast.png" %}" class="blur-up lazyload" alt="Contact Us"  style="height: 350px; width:auto; border-radius: 10px;">
+                                </a>
                             </li>
                         </ul>
                     </div>
                 </div>
+                
             </div>
         </div>
 
         <div class="sub-footer section-small-space">
             <div class="reserve">
-                <h6 class="text-content">©2022 Fastkart All rights reserved</h6>
+                <h4 class="text-content">©<span id="year"></span> Vellore Cart All rights reserved</h4>
             </div>
 
             <div class="payment">
                 <img src="../assets/images/payment/1.png" class="blur-up lazyload" alt="">
             </div>
 
-            <div class="social-link">
+            {% comment %} <div class="social-link">
                 <h6 class="text-content">Stay connected :</h6>
                 <ul>
                     <li>
@@ -247,8 +206,11 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> {% endcomment %}
         </div>
     </div>
 </footer>
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 <!-- Footer Section End -->

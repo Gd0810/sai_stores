@@ -75,21 +75,29 @@ def type_products(request, type_id):
     })
 
 # Display product details
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    media_files = ProductMedia.objects.filter(product=product)  # Fetch related media files
+# def product_detail(request, product_id):
+#     product = get_object_or_404(Product, id=product_id)
+#     media_files = ProductMedia.objects.filter(product=product)  # Fetch related media files
 
-    can_review = False  # Default: user cannot review
+#     can_review = False
 
-    if request.user.is_authenticated:
-        # Check if user has ordered this product and it's delivered
-        can_review = Order.objects.filter(user=request.user, product=product, status="Delivered").exists()
+#     if request.user.is_authenticated:
+#         # Check if user has an order for this product and it's delivered
+#         can_review = Order.objects.filter(
+#             user=request.user,
+#             product=product,
+#             status="Delivered"
+#         ).exists()
 
-    return render(request, 'store/product_detail.html', {
-        'product': product,
-        'media_files': media_files,  # Pass media files to template
-        'can_review': can_review
-    })
+#     print(f"User: {request.user}, Can Review: {can_review}")  # Debugging print
+
+#     return render(request, 'store/product_detail.html', {
+#         'product': product,
+#         'media_files': media_files,
+#         'can_review': can_review
+#     })
+
+
 # Toggle wishlist
 @login_required
 def toggle_wishlist(request, product_id):
@@ -559,10 +567,21 @@ def index(request):
 def product_detail(request, product_id):
     # Get the current product
     product = get_object_or_404(Product, id=product_id)
+    media_files = ProductMedia.objects.filter(product=product)
 
     # Get related products (same category, exclude the current product)
     related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:10]
     
+    can_review = False
+
+    if request.user.is_authenticated:
+        # Check if user has an order for this product and it's delivered
+        can_review = Order.objects.filter(
+            user=request.user,
+            product=product,
+            status="Delivered"
+        ).exists()
+        
     # Calculate the total count of ratings
     total_ratings = Feedback.objects.filter(product=product).count()
 
@@ -570,6 +589,8 @@ def product_detail(request, product_id):
         'product': product,
         'related_products': related_products,
         'total_ratings': total_ratings,
+        'can_review': can_review,
+        'media_files': media_files,
     })
 
 def confirm_order_cancel(request, order_id):

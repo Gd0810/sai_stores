@@ -285,7 +285,7 @@ def place_order(request):
         # Send confirmation email
         email_body = f"""
         <p>Hi <strong>{request.user.username}</strong>,</p>
-        <p>Thank you for shopping with <strong>Sai-Stores</strong>!</p>
+        <p>Thank you for shopping with <strong>Vellore Cart</strong>!</p>
         <p>Your order has been placed successfully. Below are the details of your order:</p>
 
         {order_table}
@@ -298,15 +298,15 @@ def place_order(request):
         </p>
 
         <p><strong>Estimated Delivery Date:</strong> {estimated_delivery.strftime('%Y-%m-%d')}</p>
-        <p>Thank you for choosing Sai-Stores. We hope to serve you again soon!</p>
+        <p>Thank you for choosing Vellore Cart. We hope to serve you again soon!</p>
 
-        <p>Best regards,<br><strong>The Sai-Stores Team</strong></p>
+        <p>Best regards,<br><strong>The Vellore Cart Team</strong></p>
         """
 
         email = EmailMultiAlternatives(
-            'Order Confirmation from Sai-Stores.com',
+            'Order Confirmation from Vellore Cart.com',
             'Your order has been placed successfully.',  # Plain text fallback
-            'no-reply@sai-stores.com',
+            'no-reply@Vellore Cart.com',
             [request.user.email],
         )
         email.attach_alternative(email_body, "text/html")
@@ -570,7 +570,7 @@ def product_detail(request, product_id):
     media_files = ProductMedia.objects.filter(product=product)
 
     # Get related products (same category, exclude the current product)
-    related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:10]
+    related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:25]
     
     can_review = False
 

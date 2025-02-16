@@ -6,6 +6,8 @@ from django.contrib import messages
 from .forms import UserRegistrationForm
 from .models import CustomUser
 from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.utils.html import format_html
 import random
 
 # Global variable to store OTPs for simplicity (use a model in production)
@@ -49,24 +51,44 @@ from .models import CustomUser
 
 otp_storage = {}  # Format: {email: {"otp": 123456, "timestamp": 1700000000}}
 
+
+
 def forgot_password(request):
     if request.method == 'POST':
         email = request.POST['email']
         user = CustomUser.objects.filter(email=email).first()
         if user:
             otp = random.randint(100000, 999999)
-            otp_storage[email] = otp
-            send_mail(
-                'Password Reset OTP',
-                f'Your OTP for resetting the password is {otp}.',
-                'no-reply@sai-stores.com',
-                [email],
+            otp_storage[email] = otp  # Store OTP for verification
+
+            subject = "Password Reset OTP"
+
+            # Plain text version (fallback for email clients without HTML support)
+            text_content = f"Hi {user.username}, Your OTP for resetting the password is: {otp}"
+
+            # HTML version with styling
+            html_content = format_html(
+                """
+                <p>From Vellore Cart User Authentication Team</p>
+                <p>Hi <strong>{}</strong>, Your OTP for resetting the password is:</p>
+                <h2 style="color: #0DA487; font-size: 50px; display: flex; justify-content: center; font-weight: bold;">{}</h2>
+                <p>Please enter this OTP to reset your password.</p>
+                """,
+                user.username, otp
             )
+
+            # Send email with both text and HTML content
+            email_message = EmailMultiAlternatives(subject, text_content, 'no-reply@VelloreCart.com', [email])
+            email_message.attach_alternative(html_content, "text/html")
+            email_message.send()
+
             messages.success(request, 'OTP has been sent to your Gmail')
             return redirect('accounts:reset_password')
         else:
             messages.error(request, 'Email not found.')
+
     return render(request, 'accounts/forgot_password.html')
+
 
 
 def reset_password(request):
